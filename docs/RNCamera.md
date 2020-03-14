@@ -208,7 +208,7 @@ Use the `autoFocus` property to specify the auto focus setting of your camera. `
 Values: Object `{ x: 0.5, y: 0.5 }`.
 Values (iOS): Object `{ x: 0.5, y: 0.5, autoExposure }`.
 
-Setting this property causes the auto focus feature of the camera to attempt to focus on the part of the image at this coordiate.
+Setting this property causes the auto focus feature of the camera to attempt to focus on the part of the image at this coordinate.
 
 Coordinates values are measured as floats from `0` to `1.0`. `{ x: 0, y: 0 }` will focus on the top left of the image, `{ x: 1, y: 1 }` will be the bottom right. Values are based on landscape mode with the home button on the right—this applies even if the device is in portrait mode.
 
@@ -324,9 +324,16 @@ By default a `Camera not authorized` message will be displayed when access to th
 
 By default a <ActivityIndicator> will be displayed while the component is waiting for the user to grant/deny access to the camera, if set displays the passed react element instead of the default one.
 
-#### `iOS` `rectOfInterest`
+#### `rectOfInterest`
 
 An `{x: , y:, width:, height: }` object which defines the rect of interst as normalized coordinates from `(0,0)` top left corner to `(1,1)` bottom right corner.
+
+Note: Must also provide cameraViewDimensions prop for Android device
+
+### `Android` `cameraViewDimensions`
+
+An `{width:, height: }` object which defines the width and height of the cameraView. This prop is used to adjust the effect of Aspect Raio for rectOfInterest area on Android
+
 
 ### `iOS` `videoStabilizationMode`
 
