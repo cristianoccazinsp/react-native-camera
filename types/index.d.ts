@@ -72,6 +72,10 @@ type VideoCodec = Readonly<{
   AppleProRes422: symbol;
   AppleProRes4444: symbol;
 }>;
+type ImageType = Readonly<{
+  'jpeg': any;
+  'png': any;
+}>;
 
 type FaceDetectionClassifications = Readonly<{ all: any; none: any }>;
 type FaceDetectionLandmarks = Readonly<{ all: any; none: any }>;
@@ -119,6 +123,7 @@ export interface Constants {
   Type: CameraType;
   WhiteBalance: WhiteBalance;
   VideoQuality: VideoQuality;
+  ImageType: ImageType;
   BarCodeType: BarCodeType;
   FaceDetection: {
     Classifications: FaceDetectionClassifications;
@@ -248,6 +253,8 @@ export interface RNCameraProps {
   permissionDialogMessage?: string;
   /** Android only */
   playSoundOnCapture?: boolean;
+  /** Android only */
+  playSoundOnRecord?: boolean;
 
   androidCameraPermissionOptions?: {
     title: string;
@@ -425,6 +432,7 @@ interface TakePictureOptions {
 
   /** iOS only */
   forceUpOrientation?: boolean;
+  imageType?: keyof ImageType;
 }
 
 export interface TakePictureResponse {

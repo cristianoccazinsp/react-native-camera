@@ -356,6 +356,10 @@ An `{width:, height: }` object which defines the width and height of the cameraV
 
 Boolean to turn on or off the camera's shutter sound (default false). Note that in some countries, the shutter sound cannot be turned off.
 
+### `Android` `playSoundOnRecord`
+
+Boolean to turn on or off the camera's record sound (default false)
+
 ### `iOS` `videoStabilizationMode`
 
 The video stabilization mode used for a video recording. The possible values are:
@@ -637,6 +641,8 @@ writeExif = {
 - `fixOrientation` (android only, boolean true or false) Use this with `true` if you want to fix incorrect image orientation (can take up to 5 seconds on some devices). Do not provide this if you only need EXIF based orientation.
 
 - `forceUpOrientation` (iOS only, boolean true or false). This property allows to force portrait orientation based on actual data instead of exif data.
+
+- `imageType` (iOS only, ImageType 'jpg' or 'png'). This property allows setting the output image format to PNG or JPEG (default).
 
 - `doNotSave` (boolean true or false). Use this with `true` if you do not want the picture to be saved as a file to cache. If no value is specified `doNotSave:false` is used. If you only need the base64 for the image, you can use this with `base64:true` and avoid having to save the file.
 
