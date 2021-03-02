@@ -766,12 +766,24 @@ static NSDictionary *defaultFaceDetectorOptions = nil;
 
     
     @try {
+        
+        
         NSInteger orientation = [options[@"orientation"] integerValue];
         AVCaptureConnection *connection = [self.photoOutput connectionWithMediaType:AVMediaTypeVideo];
         [connection setVideoOrientation:orientation];
         
         AVCapturePhotoSettings* avSettings = [AVCapturePhotoSettings photoSettings];
         [avSettings setHighResolutionPhotoEnabled:YES];
+        
+        if(self.flashMode == RNCameraFlashModeOn){
+            avSettings.flashMode = AVCaptureFlashModeOn;
+        }
+        else if(self.flashMode == RNCameraFlashModeAuto){
+            avSettings.flashMode = AVCaptureFlashModeAuto;
+        }
+        else{
+            avSettings.flashMode = AVCaptureFlashModeOff;
+        }
         
         photoResolve = resolve;
         photoReject = reject;
