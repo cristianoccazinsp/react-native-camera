@@ -729,11 +729,11 @@ BOOL _sessionInterrupted = NO;
 }
 
 - (void)takePictureWithOrientation:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject{
-    
+
     UIInterfaceOrientation orientation = [self.sensorOrientationChecker getDeviceOrientation];
-    
+
     NSMutableDictionary *tmpOptions = [options mutableCopy];
-    
+
     if ([tmpOptions valueForKey:@"orientation"] == nil) {
         tmpOptions[@"orientation"] = [NSNumber numberWithInteger:[self.sensorOrientationChecker convertToAVCaptureVideoOrientation:orientation]];
     }
@@ -923,7 +923,7 @@ BOOL _sessionInterrupted = NO;
                     }
 
                 }
-                
+
                 CFDictionaryRef finalMetaData = nil;
                 if (writeExif) {
                     finalMetaData = (__bridge CFDictionaryRef)metadata;
@@ -1003,7 +1003,7 @@ BOOL _sessionInterrupted = NO;
 }
 
 - (void)recordWithOrientation:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject{
-    
+
     UIInterfaceOrientation orientation = [self.sensorOrientationChecker getDeviceOrientation];
     NSMutableDictionary *tmpOptions = [options mutableCopy];
     if ([tmpOptions valueForKey:@"orientation"] == nil) {
@@ -1098,7 +1098,6 @@ BOOL _sessionInterrupted = NO;
         // with this and the captureAudio prop
         dispatch_async(self.sessionQueue, ^{
             [self initializeAudioCaptureSessionInput];
-            
             // finally, make sure we got access to the capture device
             // and turn the connection on.
             if(self.audioCaptureDeviceInput != nil){
@@ -1173,17 +1172,17 @@ BOOL _sessionInterrupted = NO;
         if (options[@"codec"]) {
             if (@available(iOS 10, *)) {
                 AVVideoCodecType videoCodecType = options[@"codec"];
-                
+
                 if ([self.movieFileOutput.availableVideoCodecTypes containsObject:videoCodecType]) {
                     self.videoCodecType = videoCodecType;
-                    
+
                     BOOL supportsBitRate = NO;
-                    
+
                     // prevent crashing due to unsupported keys
                     if (@available(iOS 12.0, *)) {
                         supportsBitRate = [[self.movieFileOutput supportedOutputSettingsKeysForConnection:connection] containsObject:AVVideoCompressionPropertiesKey];
                     }
-                    
+
                     if(options[@"videoBitrate"] && supportsBitRate) {
                         NSString *videoBitrate = options[@"videoBitrate"];
                         [self.movieFileOutput setOutputSettings:@{
