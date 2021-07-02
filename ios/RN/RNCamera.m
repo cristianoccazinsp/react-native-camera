@@ -750,12 +750,23 @@ BOOL _sessionInterrupted = NO;
         return;
     }
 
-    if (!self.deviceOrientation) {
-        [self takePictureWithOrientation:options resolve:resolve reject:reject];
-        return;
-    }
+    // make sure to get orientation info here
+    // as it may change if multiple consecutive calls are done
+    NSInteger orientation;
+    NSNumber* deviceOrientation;
 
-    NSInteger orientation = [options[@"orientation"] integerValue];
+    @synchronized (self) {
+        if (!self.deviceOrientation) {
+            [self takePictureWithOrientation:options resolve:resolve reject:reject];
+            return;
+        }
+
+        orientation = [options[@"orientation"] integerValue];
+        deviceOrientation = self.deviceOrientation;
+
+        self.orientation = nil;
+        self.deviceOrientation = nil;
+    }
 
     AVCaptureConnection *connection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
     [connection setVideoOrientation:orientation];
@@ -977,8 +988,8 @@ BOOL _sessionInterrupted = NO;
                             //[RNImageUtils updatePhotoMetadata:imageSampleBuffer withAdditionalData:@{ @"Orientation": @(imageRotation) } inResponse:response]; // TODO
                         }
 
-                        response[@"pictureOrientation"] = @([self.orientation integerValue]);
-                        response[@"deviceOrientation"] = @([self.deviceOrientation integerValue]);
+                        response[@"pictureOrientation"] = @(orientation);
+                        response[@"deviceOrientation"] = @([deviceOrientation integerValue]);
 
                         if (useFastMode) {
                             [self onPictureSaved:@{@"data": response, @"id": options[@"id"]}];
@@ -986,9 +997,6 @@ BOOL _sessionInterrupted = NO;
                             resolve(response);
                         }
                     }
-
-                    self.orientation = nil;
-                    self.deviceOrientation = nil;
                 }
                 else{
                     reject(@"E_IMAGE_CAPTURE_FAILED", @"Image could not be saved", error);
